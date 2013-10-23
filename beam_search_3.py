@@ -64,7 +64,7 @@ def updatevector(match_word_test, match_word_train, train_vecotrs, test_vectors)
   return updated_vectors
 
 def beam_search(word_list, trainvectors, testvectors, beam_width):
-  result = [(sys.float_info.max, [])]
+  result = []
   word = word_list[0]
   topnum = 10
   match_list = getmatchswithscore(word, trainvectors, testvectors, topnum)
@@ -72,17 +72,16 @@ def beam_search(word_list, trainvectors, testvectors, beam_width):
 #  print(match_list)
   round_min_con_score = sys.float_info.max
   for match_word in match_list:
-    con_score = match_word[0]
-    candidate_word_list = []
-    candidate_word_list.append(match_word[1])
+    #con_score = match_word[0]
+    #candidate_word_list.extend(match_word[1])
     if len(word_list) > 1:
       updated_vec = updatevector(word, match_word[1], trainvectors, testvectors)
       candidates = beam_search(word_list[1:], trainvectors, updated_vec, beam_width) 
       
-      result += candidates
+      result.extend(candidates)
       if len(result) + len(candidates) > beam_width:
         result.sort(key=lambda tup: tup[1])
-        result = result[:beam_width]
+        result.extend(candidates)
       
       
 #      con_score += candidate[0] # calculate combination score
@@ -119,10 +118,13 @@ def find_candidates(trainvectors, testvectors, window_size):
   
   updated_vec = testvectors.copy()
   for ngram in ngram_list:
+    print('ngram : ' + ' '.join(ngram))
     candidate_list = beam_search(ngram, trainvectors, updated_vec, beam_width)
     org_word = ngram[0]
-    rpl_word = match_item[1][0]
-    print(org_word + ' ; ' + rpl_word)
+    rpl_word = [x[1] for x in candidate_list]
+    print(org_word + ' : '), 
+    print(str(len(rpl_word)) + ' : '),
+    print(' '.join(rpl_word) + ' ; ')
  
  #? do we need to update word?   
  #  updated_vec = updatevector(org_word, rpl_word, trainvectors, updated_vec)
