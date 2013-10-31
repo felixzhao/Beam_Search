@@ -1,7 +1,7 @@
-unks = []
+unks = [] # queue
 cands = []
 docs = []
-results = {}
+results = {} # dict key:unk , value:cands list
 
 def add2result(unk, cands):
     result[unk] = cands
@@ -21,7 +21,7 @@ def beam_search():
       return
     else
       unk = unks.top
-      tempcands = [(,)]
+      tempcands = [(,)] # tuple list. first:cand , second:doc number
       for doc in docs:
         tempcands.append((findcands(unk, doc),doc)) # generate tuple (cand,doc)
       tempcands = tempcands.sort().top(n)
