@@ -5,12 +5,12 @@ cands = []
 docs = deque()
 results = {} # dict key:unk , value:cands list
 
-def add2result(unk, cands):
-    result[unk] = cands
+def update_doc(doc, cand):
+  return updated_doc
 
-def generatedoc(cand):
+def find_cands(cur_unk, doc):
+  return cands_tuple
   
-
 def beam_search():
   while unks.empty() != True:
     if len(cands) != 0:
