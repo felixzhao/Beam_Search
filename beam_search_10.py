@@ -12,6 +12,7 @@ def beam_search(match_word_test, test_vectors, train_vectors, beam_width):
     result = {} # unki : [ candj]
 
     # init
+    topnum = 50
     unks = match_word_test
     docs.append(test_vectors)
         
