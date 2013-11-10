@@ -9,6 +9,8 @@ trainvectors = {}
 trainwords = set(trainvectors.keys())
 
 def update_doc(doc, unk, cand):
+  if cand == '':
+    return doc
   updated_doc = doc.copy()
   updated_doc[cand] = trainvectors[cand]
   del updated_doc[unk]
@@ -50,7 +52,7 @@ def find_cands(match_word_test, testvectors, test_vector_number):
 
 def beam_search(beam_width):
   while unks.empty() != True:
-    if len(cands) != 0:
+#    if len(cands) != 0:
       result(unks[-1], cands) # add2result(unks[-1],cands) # top unks, all cands
       cur_unk = unks.pop()
     
