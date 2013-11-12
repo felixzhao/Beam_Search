@@ -1,5 +1,6 @@
 import sys
 import math
+
 from heapq import *
 
 def calcdist(x, y):
@@ -52,7 +53,7 @@ def find_cands(match_word_test, testvectors, trainvectors, topnum, doc_num):
 
     heap = []
     for match_word_train in matchwords_train:
-        print >>sys.stderr, 'Generating match scores for: ', match_word_train, ' and ', match_word_test
+#        print >>sys.stderr, 'Generating match scores for: ', match_word_train, ' and ', match_word_test
         match_score = calcMatchScore(match_word_test, match_word_train, knn, trainvectors, testvectors)
         heappush(heap, (match_score,match_word_train,doc_num))
 
