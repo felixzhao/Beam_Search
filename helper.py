@@ -1,3 +1,4 @@
+from operator import itemgetter
 
 # candi_tuple_list : tuple ( dist, cand, #doc )
 # cands sorted by average dist for each cand
@@ -23,7 +24,10 @@ def nsmallestcandidates(width, candi_tuple_list):
       count_list[tuple[1]] += 1
     else:
       count_list[tuple[1]] = 1
-    cands_sortby_avg_score = list(set([(x[1]/y[1], x[0]) for x in avg_list.items() for y in count_list.items()]))[:width] # avg_score, cand
+      
+    data = list(set([(x[1]/y[1], x[0]) for x in avg_list.items() for y in count_list.items()]))
+    temp_list = sorted(data, key=itemgetter(0))
+    cands_sortby_avg_score = temp_list[:width]
    
   # debug 
   print 'avg list:'
@@ -32,9 +36,15 @@ def nsmallestcandidates(width, candi_tuple_list):
   print 'count_list:'
   print count_list
   print
+  print 'data:'
+  print data
+  print
+  print 'temp_list:'
+  print temp_list
+  print
   print 'avg cands:'
   print cands_sortby_avg_score
-  print
+  print  
   # end debug
    
   # get smallest score for cand's #doc
@@ -76,6 +86,9 @@ def nsmallestcandidates(width, candi_tuple_list):
       if source_item[1] == item[0] and source_item[2] == item[1]:
         result.append(source_item)
 
+  # sort result by score
+  result = sorted(result, key=itemgetter(0))
+        
   return result # dist, cand, #doc
   
 if __name__ == '__main__':

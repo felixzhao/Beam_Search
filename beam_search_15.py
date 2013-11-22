@@ -4,6 +4,7 @@ import time
 
 from heapq import *
 import beam_search_helper
+import helper
 
 def beam_search(match_word_test, test_vectors, train_vectors, beam_width):
 
@@ -14,6 +15,8 @@ def beam_search(match_word_test, test_vectors, train_vectors, beam_width):
     docs = []
     cands = [] # dist, cand, #doc
     result = {} # unki : [ candj]
+    
+    nsmallest = []
 
     # init
     topnum = 50
@@ -33,10 +36,10 @@ def beam_search(match_word_test, test_vectors, train_vectors, beam_width):
                         ,cands) \
                     )                    
         t_docs = []
-        for item in nsmallest(beam_width, cands):
-
-            #print len(item)
-            #print item[-1]
+#        for item in nsmallest(beam_width, cands):
+        for item in helper.nsmallestcandidates(beam_width, cands):
+            print len(item)
+            print item[-1]
 
             # unk, cand, doc
             t_docs.append( \

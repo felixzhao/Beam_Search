@@ -1,1 +1,1 @@
-python ./beam_search_13.py 5
+python ./beam_search.py 5
