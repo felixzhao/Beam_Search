@@ -1,117 +1,49 @@
-from operator import itemgetter
 
-# candi_tuple_list : tuple ( dist, cand, #doc )
-# cands sorted by average dist for each cand
-# #doc get smallest score for this cand
-# return tuple list : tuple( dist, cand, #doc )
 def nsmallestcandidates(width, candi_tuple_list):
-  result = [] # dist, cand, #doc
-  cands = dict() # cand, #doc
-  
-  doc_dic = dict() # cand, #doc
-  score_dic = dict() # cand, score
-  
-  avg_list = dict()
-  count_list = dict()
-  
-  # get cands sorted list by avg score for this cand
-  for tuple in candi_tuple_list:
-    if tuple[1] in avg_list:
-      avg_list[tuple[1]] += tuple[0]
-    else:
-      avg_list[tuple[1]] = tuple[0]
-    if tuple[1] in count_list:
-      count_list[tuple[1]] += 1
-    else:
-      count_list[tuple[1]] = 1
-      
-    data = list(set([(x[1]/y[1], x[0]) for x in avg_list.items() for y in count_list.items()]))
-    temp_list = sorted(data, key=itemgetter(0))
-    cands_sortby_avg_score = temp_list[:width]
-   
-  # debug 
-  print 'avg list:'
-  print avg_list
-  print
-  print 'count_list:'
-  print count_list
-  print
-  print 'data:'
-  print data
-  print
-  print 'temp_list:'
-  print temp_list
-  print
-  print 'avg cands:'
-  print cands_sortby_avg_score
-  print  
-  # end debug
-   
-  # get smallest score for cand's #doc
-  for sorted_cand in cands_sortby_avg_score: # avg_score, cand
-    for source_item in candi_tuple_list: # dist, cand, #doc
-      if sorted_cand[1] == source_item[1]:
-      
-        if sorted_cand[1] not in score_dic:
-          doc_dic[sorted_cand[1]] = source_item[2]
-          score_dic[sorted_cand[1]] = source_item[0]
-          
-        # debug
-          if sorted_cand[1] == 'c' or sorted_cand[1] == 'e':
-            print 'find init: ' + str(source_item[0]) + ' ' + str(sorted_cand[1]) + ' '  + str(source_item[2])
-            print
-        #end debug
-          
-        elif source_item[0] < score_dic[sorted_cand[1]]:
-          doc_dic[sorted_cand[1]] = source_item[2]
-          score_dic[sorted_cand[1]] = source_item[0]
-          
-        # debug
-          if sorted_cand[1] == 'c' or sorted_cand[1] == 'e':
-            print 'find: ' + str(source_item[0]) + ' '  + str(sorted_cand[1]) + ' '  + str(source_item[2])
-            print
-        if sorted_cand[1] == 'c' or sorted_cand[1] == 'e':
-          print 'compare: ' + sorted_cand[1] + ' ' + str(source_item[0]) + ' vs ' + str(doc_dic[sorted_cand[1]])
-          print
-        # end debug
+    result = [] # dist, cand, #doc
 
-  # debug 
-  print 'doc list:'
-  print doc_dic
-  # end debug
-          
-  # generate result
-  for item in doc_dic.items():
-    for source_item in candi_tuple_list:
-      if source_item[1] == item[0] and source_item[2] == item[1]:
-        result.append(source_item)
+    dict = {} # key: cand ; value: [ sum, count, # mini tuple ]
 
-  # sort result by score
-  result = sorted(result, key=itemgetter(0))
-        
-  return result # dist, cand, #doc
-  
+    sorted_list = []
+
+    for item in candi_tuple_list:
+        if item[1] not in dict:
+            dict[item[1]] = [ item[0], 1, item ]
+        else:
+#            cur_node = dict[item[1]]
+            if item[0] < dict[item[1]][2][0]: # current score < min score
+                cur_dist = dict[item[1]][0]
+                dict[item[1]] = [ cur_dist + item[0], dict[item[1]][1] + 1, item ] # sum dist, count+1, min node
+    
+    sorted_list = sorted([ ( x[0]/x[1], x[2] ) for x in dict.values()], key = lambda x:x[0])[:width]
+
+    print 'sorted list:'
+    print sorted_list
+    print
+
+    result = [ x[1] for x in sorted_list ]
+
+    return result
+
 if __name__ == '__main__':
-  cands = [(1, 'a', 1), (1.2, 'b', 1), (1.5, 'c', 1), (0.9, 'd', 1), (2, 'e', 1) \
-           ,(0.7, 'a', 2), (2.3, 'b', 2), (1.2, 'c', 2), (1.2, 'd', 2), (1.2, 'e', 2) \
-           ,(2.2, 'a', 3), (0.7, 'b', 3), (0.6, 'c', 3), (2.2, 'd', 3), (3.9, 'e', 3) \
-          ]
+    cands = [(1, 'a', 1), (1.2, 'b', 1), (1.5, 'c', 1), (0.9, 'd', 1), (2, 'e', 1) \
+             ,(0.7, 'a', 2), (2.3, 'b', 2), (1.2, 'c', 2), (1.2, 'd', 2), (1.2, 'e', 2) \
+             ,(2.2, 'a', 3), (0.7, 'b', 3), (0.6, 'c', 3), (2.2, 'd', 3), (3.9, 'e', 3) \
+            ]
           
-  width = 5
-  actual = nsmallestcandidates(width, cands)
-  expected = [(0.6, 'c', 3), (0.7, 'a', 2), (0.7, 'b', 3), (0.9, 'd', 1), (1.2, 'e', 2)]
-  print 'width 5:'
-  for item in actual:
-    print item
-  print
+    width = 5
+    actual = nsmallestcandidates(width, cands)
+    expected = [(0.6, 'c', 3), (0.7, 'a', 2), (0.7, 'b', 3), (0.9, 'd', 1), (1.2, 'e', 2)]
+    print 'width 5:'
+    for item in actual:
+        print item
+    print
   
-  print ' ------ ------'
-  width = 3
-  actual = nsmallestcandidates(width, cands)
-  expected = [(0.6, 'c', 3), (0.7, 'a', 2), (0.7, 'b', 3)]
-  
-  print
-  print 'width 3:'
-  for item in actual:
-    print item
+    print ' ------ ------'
+    width = 3
+    actual = nsmallestcandidates(width, cands)
+    expected = [ (0.7, 'a', 2), (0.7, 'b', 3), (0.9,'d',1)]
+    print 'width 3:'
+    for item in actual:
+        print item
   
