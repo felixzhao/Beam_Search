@@ -35,8 +35,12 @@ def beam_search(match_word_test, test_vectors, train_vectors, beam_width):
                    beam_search_helper.find_cands(u, docs[d], trainvectors, topnum, d) \
                         ,cands) \
                     )                    
+            # debug
+            print cands[0][0]
+            print cands[0][1]
+            print cands[0][2]
+            # end debug
         t_docs = []
-#        for item in nsmallest(beam_width, cands):
         for item in helper.nsmallestcandidates(beam_width, cands):
             print len(item)
             print item[-1]
@@ -63,6 +67,20 @@ def beam_search(match_word_test, test_vectors, train_vectors, beam_width):
         docs = t_docs
         cands = []
         print >>sys.stderr, 'unk: ', u, ' done. at time: ', time.strftime('%X')
+# debug
+        print ' ++++++ result ++++++ '
+        print u
+        print result[u]
+        print result[u][0]
+        print result[u][1]
+        print result[u][2]
+        print '{0}:{1}|{2}|{3}'.format(u,result[u][0],result[u][1],result[u][2])
+        out_str = '{0}:'.format(u)
+        for item in result[u]:
+            out_str += '{0}|'.format(item)
+        print out_str
+        print ' ++++++ end of result ++++++ '
+# end bebug
     # end of beam search
     return result
 
@@ -118,10 +136,11 @@ if __name__ == '__main__':
     for k in actual.keys():
         print >> outfile, ' ===== start of ' + k + ' ====== '
 
-        match_list = '{0} : '.format(k)
-        for item in actual:
-            match_list += '{0}, {1} | ',format(item[1],item[0])
-        print match_list
+        out_str = '{0}:'.format(k)
+        for item in actual[k]:
+            out_str += '{0}|'.format(item)
+        print out_str
+
         print >> outfile, match_list
 
         print >> outfile, ' ===== end of ' + k + ' ====== '

@@ -17,9 +17,19 @@ def nsmallestcandidates(width, candi_tuple_list):
     
     sorted_list = sorted([ ( x[0]/x[1], x[2] ) for x in dict.values()], key = lambda x:x[0])[:width]
 
+# debug
+    print ' ------ in sort ------ '
     print 'sorted list:'
     print sorted_list
+    if len(sorted_list) > 0:
+        print sorted_list[0][0]
+        print sorted_list[0][1]
+        print sorted_list[0][1][0]
+        print sorted_list[0][1][1]
+        print sorted_list[0][1][2]
     print
+    print ' ------ end in sort ----- '
+# end debug
 
     result = [ x[1] for x in sorted_list ]
 
