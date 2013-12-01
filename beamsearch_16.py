@@ -78,7 +78,7 @@ def beam_search(match_word_test, test_vectors, train_vectors, beam_width):
         out_str = '{0}:'.format(u)
         for item in result[u]:
             out_str += '{0}|'.format(item)
-        print out_str
+        print >>sys.stderr, out_str
         print ' ++++++ end of result ++++++ '
 # end bebug
     # end of beam search
@@ -141,7 +141,7 @@ if __name__ == '__main__':
             out_str += '{0}|'.format(item)
         print out_str
 
-        print >> outfile, match_list
+        print >> outfile, out_str
 
         print >> outfile, ' ===== end of ' + k + ' ====== '
         print >> outfile, ' '
