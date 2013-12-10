@@ -48,13 +48,15 @@ def nDCG(key, candidates, idcg):
         return -1
 
     list = []
-    dcg_score = 1
 
     for cand in candidates:
         if key == cand:
             list.append(1)
         else:
             list.append(0)
+            
+    dcg_score = list[0]
+
     for i in xrange(1,len(list)):
         dcg_score += list[i] / math.log(i+1,2)
     ndcg_score = dcg_score / idcg
