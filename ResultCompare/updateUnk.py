@@ -1,7 +1,7 @@
 
-infile_path = 'C:\Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/BeamSearch/out.bw10.ns3.sfw10.type33.txt'
+infile_path = 'C:\Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/BeamSearch/out.bw5.ns0.sfw0,type33.txt'
 word_map_path = 'C:\Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/source/src-33percent/word-map.txt'
-outfile_path = 'updated\updated_out.bw10.ns3.sfw10.type33.txt'
+outfile_path = 'updated\updated_out.bw5.ns0.sfw0.type33.txt'
 
 infile = open(infile_path, 'r')
 wordmap = open(word_map_path, 'r')

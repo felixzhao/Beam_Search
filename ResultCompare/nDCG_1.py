@@ -42,10 +42,10 @@ def nDCG(key, candidates, idcg):
     return ndcg_score
 
 if __name__ == '__main__':
-    baseline = 'C:/Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/baseline/baseline_result_33per_10width.txt'
-    beamsearch = 'C:/Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/updated/updated_out.bw10.ns3.sfw10.type33.txt'
-    idcg = 10
-    out_file = open('out/ndcg_score__bw10.ns3.sfw10.type33_vs_baseline.w10.type33.txt','w')
+    baseline = 'C:/Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/baseline/baseline_result_33per_5width.txt'
+    beamsearch = 'C:/Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/updated/updated_out.bw5.ns0.sfw0.type33.txt'
+    idcg = 5
+    out_file = open('out/ndcg_score__bw3.ns0.sfw0.type33_vs_baseline.w5.type33.txt','w')
 
     baseline_score = {}
     beamsearch_score = {}
