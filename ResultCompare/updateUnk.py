@@ -1,7 +1,11 @@
 
-infile_path = 'C:\Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/BeamSearch/out.bw5.ns0.sfw0,type33.txt'
+import sys
+
+beam_width = sys.argv[1]
+
+infile_path = 'C:\Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/BeamSearch/out.bw' + beam_width + '.ns0.sfw0.type33.txt'
 word_map_path = 'C:\Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/source/src-33percent/word-map.txt'
-outfile_path = 'updated\updated_out.bw5.ns0.sfw0.type33.txt'
+outfile_path = 'updated\updated_out.bw' + beam_width + '.ns0.sfw0.type33.txt'
 
 infile = open(infile_path, 'r')
 wordmap = open(word_map_path, 'r')

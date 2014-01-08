@@ -42,10 +42,13 @@ def nDCG(key, candidates, idcg):
     return ndcg_score
 
 if __name__ == '__main__':
-    baseline = 'C:/Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/baseline/baseline_result_33per_5width.txt'
-    beamsearch = 'C:/Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/updated/updated_out.bw5.ns0.sfw0.type33.txt'
-    idcg = 5
-    out_file = open('out/ndcg_score__bw3.ns0.sfw0.type33_vs_baseline.w5.type33.txt','w')
+
+    beam_width = sys.argv[1]
+    
+    baseline = 'C:/Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/baseline/baseline_result_33per_' + beam_width + 'width.txt'
+    beamsearch = 'C:/Users/zhaoqua/Documents/GitHub/Beam_Search/ResultCompare/updated/updated_out.bw' + beam_width + '.ns0.sfw0.type33.txt'
+    idcg = int(beam_width)
+    out_file = open('out/ndcg_score__bw' + beam_width + '.ns0.sfw0.type33_vs_baseline.w' + beam_width + '.type33.txt','w')
 
     baseline_score = {}
     beamsearch_score = {}
@@ -86,7 +89,40 @@ if __name__ == '__main__':
         else:
             bigger += 1
 
-    print >> out_file, 'Totally, {0} unknown words.', len(beamsearch_dict)
-    print >> out_file, ' same score are {0} items.', equal
-    print >> out_file, ' beam search score higher {0} items.', smaller
-    print >> out_file, ' base line  score higher {0} items.', bigger
+    print >> out_file, 'Totally, ' , len(beamsearch_dict), ' unknown words.'
+    print >> out_file, ' same score are ' , equal, ' items.'
+    print >> out_file, ' beam search score higher ' , smaller, ' items.' 
+    print >> out_file, ' base line  score higher ' , bigger, ' items.' 
+    
+    '''
+        print sum
+    '''
+    beamsearch_nDCG_score_sum = sum(beamsearch_score.values())
+    baseline_nDCG_score_sum = sum(baseline_score.values())
+    
+    print >> out_file, ' beam search sum of nDCG socre : ', beamsearch_nDCG_score_sum
+    print >> out_file, ' base line sum of nDCG socre : ', baseline_nDCG_score_sum
+    
+    '''
+        print match rate
+    '''
+    beamsearch_match_count = len([x for x in beamsearch_score.values() if x != 0.0])
+    baseline_match_count = len([x for x in baseline_score.values() if x != 0.0])
+    
+    beamsearch_match_rate = beamsearch_match_count / float(len(beamsearch_score.values()))
+    baseline_match_rate = baseline_match_count / float(len(baseline_score.values()))
+    
+    print >> out_file, ' beam search match count : ', beamsearch_match_count
+    print >> out_file, ' base line match count : ', baseline_match_count 
+    print >> out_file, ' beam search match rate : ', beamsearch_match_rate
+    print >> out_file, ' base line match rate : ', baseline_match_rate
+    
+    '''
+        print result list
+    '''
+    print >> out_file, ''
+    print >> out_file, '[ ' + str(len(beamsearch_dict)) + ' , ' + str(equal) + ' , ' + str(smaller) + ' , ' + str(bigger) + ' , ' + \
+    str(beamsearch_nDCG_score_sum) + ' , ' + str(baseline_nDCG_score_sum) + ' , ' + \
+    str(beamsearch_match_count) + ' , ' + str(baseline_match_count) + ' , ' + \
+    str(beamsearch_match_rate) + ' , ' + str(baseline_match_rate) + ' ]'
+    
